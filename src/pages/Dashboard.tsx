@@ -9,11 +9,34 @@ interface ModulesByProfession {
 export default function Dashboard() {
   const [profession, setProfession] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [progress, setProgress] = useState<number>(30); // Exemplo de progresso inicial
+  const [progress, setProgress] = useState<number>(0);
 
   useEffect(() => {
-    setProfession(localStorage.getItem("profession") || "");
-    setName(localStorage.getItem("userName") || "");
+    const loadData = () => {
+      setProfession(localStorage.getItem("profession") || "");
+      setName(localStorage.getItem("userName") || "");
+
+      const savedProgress = localStorage.getItem("progress");
+      const progressValue = savedProgress ? Number(savedProgress) : 0;
+
+      if (isNaN(progressValue)) {
+        localStorage.setItem("progress", "0");
+        setProgress(0);
+      } else {
+        setProgress(progressValue);
+      }
+    };
+
+    // Carrega os dados na primeira montagem
+    loadData();
+
+    // 🔁 Atualiza automaticamente quando o usuário volta pro Dashboard
+    window.addEventListener("focus", loadData);
+
+    // Limpa o listener ao sair da página
+    return () => {
+      window.removeEventListener("focus", loadData);
+    };
   }, []);
 
   const modules: ModulesByProfession = {
@@ -27,11 +50,7 @@ export default function Dashboard() {
       "Feedback Inteligente",
       "IA para Engajamento",
     ],
-    TI: [
-      "IA no Desenvolvimento",
-      "Automação de Tarefas",
-      "Análise de Logs",
-    ],
+    TI: ["IA no Desenvolvimento", "Automação de Tarefas", "Análise de Logs"],
     Educação: [
       "IA no Ensino",
       "Criação de Conteúdo",
@@ -47,12 +66,12 @@ export default function Dashboard() {
   const COLORS = ["#4F46E5", "#6366F1"];
 
   const data = [
-    { name: "Concluído", value: progress },
+    { name: "Concluído", value: progress > 0 ? progress : 0.0001 },
     { name: "Restante", value: 100 - progress },
   ];
 
   return (
-    <div className="min-h-screen bg-indigo-900 text-white flex flex-col items-center">
+    <div className="min-h-screen bg-indigo-900 text-white flex flex-col items-center transition-all duration-300">
       <h2 className="text-4xl font-bold mt-10">Olá, {name} 👋</h2>
       <p className="text-lg mt-2 mb-6">Sua área: {profession}</p>
 
