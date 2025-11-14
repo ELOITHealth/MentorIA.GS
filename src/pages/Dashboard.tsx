@@ -1,42 +1,24 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { PieChart, Pie, Cell } from "recharts";
+import { PieChart, Pie, Cell, Tooltip } from "recharts";
+import { motion } from "framer-motion";
+import ProgressBar from "../components/ProgressBar";
 
 interface ModulesByProfession {
   [key: string]: string[];
 }
 
 export default function Dashboard() {
-  const [profession, setProfession] = useState<string>("");
-  const [name, setName] = useState<string>("");
-  const [progress, setProgress] = useState<number>(0);
+  const [profession, setProfession] = useState("");
+  const [name, setName] = useState("");
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const loadData = () => {
-      setProfession(localStorage.getItem("profession") || "");
-      setName(localStorage.getItem("userName") || "");
+    setProfession(localStorage.getItem("profession") || "");
+    setName(localStorage.getItem("userName") || "");
 
-      const savedProgress = localStorage.getItem("progress");
-      const progressValue = savedProgress ? Number(savedProgress) : 0;
-
-      if (isNaN(progressValue)) {
-        localStorage.setItem("progress", "0");
-        setProgress(0);
-      } else {
-        setProgress(progressValue);
-      }
-    };
-
-    // Carrega os dados na primeira montagem
-    loadData();
-
-    // 🔁 Atualiza automaticamente quando o usuário volta pro Dashboard
-    window.addEventListener("focus", loadData);
-
-    // Limpa o listener ao sair da página
-    return () => {
-      window.removeEventListener("focus", loadData);
-    };
+    const savedProgress = Number(localStorage.getItem("progress") || "0");
+    setProgress(isNaN(savedProgress) ? 0 : savedProgress);
   }, []);
 
   const modules: ModulesByProfession = {
@@ -45,22 +27,10 @@ export default function Dashboard() {
       "Automação de Campanhas",
       "Análise de Tendências",
     ],
-    RH: [
-      "Análise de Currículos com IA",
-      "Feedback Inteligente",
-      "IA para Engajamento",
-    ],
+    RH: ["Análise de Currículos", "Feedback Inteligente", "Engajamento com IA"],
     TI: ["IA no Desenvolvimento", "Automação de Tarefas", "Análise de Logs"],
-    Educação: [
-      "IA no Ensino",
-      "Criação de Conteúdo",
-      "Avaliação Automatizada",
-    ],
-    Saúde: [
-      "Diagnóstico Assistido",
-      "Gestão Inteligente",
-      "Atendimento Automatizado",
-    ],
+    Educação: ["IA no Ensino", "Criação de Conteúdo", "Avaliação Automatizada"],
+    Saúde: ["Diagnóstico Assistido", "Gestão Inteligente", "Atendimento IA"],
   };
 
   const COLORS = ["#4F46E5", "#6366F1"];
@@ -71,44 +41,77 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-indigo-900 text-white flex flex-col items-center transition-all duration-300">
-      <h2 className="text-4xl font-bold mt-10">Olá, {name} 👋</h2>
-      <p className="text-lg mt-2 mb-6">Sua área: {profession}</p>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-indigo-700 text-white px-6 py-10">
+      {/* Header */}
+      <div className="max-w-5xl mx-auto flex justify-between items-center mb-12">
+        <div>
+          <h2 className="text-4xl font-bold">Olá, {name} 👋</h2>
+          <p className="text-indigo-200">Profissão: {profession}</p>
+        </div>
 
-      {/* Barra de progresso circular */}
-      <div className="mb-10">
-        <PieChart width={150} height={150}>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            innerRadius={40}
-            outerRadius={70}
-            paddingAngle={3}
-            dataKey="value"
-          >
-            {data.map((_, index) => (
-              <Cell key={index} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-        </PieChart>
-        <p className="text-center font-semibold text-indigo-200">
-          Progresso: {progress}%
-        </p>
+        {/* Avatar */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-2xl shadow-lg border border-white/10"
+        >
+          {name.charAt(0)}
+        </motion.div>
       </div>
 
-      {/* Lista de módulos */}
-      <div className="w-3/4 mt-4">
-        <h3 className="text-2xl mb-4 text-center">Módulos recomendados:</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {modules[profession]?.map((mod, index) => (
-            <Link
-              key={index}
-              to={`/module/${index}`}
-              className="bg-indigo-700 p-6 rounded-xl shadow hover:scale-105 transition text-center"
+      {/* Progress Area */}
+      <div className="max-w-4xl mx-auto mb-12">
+        <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/10">
+          <h3 className="text-xl font-semibold mb-4">Seu progresso total</h3>
+
+          <ProgressBar progress={progress} />
+
+          <p className="mt-2 text-indigo-200">{progress}% concluído</p>
+
+          {/* Pie chart */}
+          <div className="flex justify-center mt-6">
+            <PieChart width={200} height={200}>
+              <Pie
+                data={data}
+                dataKey="value"
+                cx="50%"
+                cy="50%"
+                innerRadius={50}
+                outerRadius={80}
+                paddingAngle={3}
+              >
+                {data.map((_, i) => (
+                  <Cell key={i} fill={COLORS[i]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </div>
+        </div>
+      </div>
+
+      {/* Modules section */}
+      <div className="max-w-5xl mx-auto">
+        <h3 className="text-2xl font-bold mb-6">Módulos recomendados</h3>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {modules[profession]?.map((mod, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
             >
-              <p className="font-semibold">{mod}</p>
-            </Link>
+              <Link
+                to={`/module/${i}`}
+                className="block bg-white/10 hover:bg-white/20 transition p-6 rounded-xl shadow-lg border border-white/10"
+              >
+                <h4 className="font-semibold">{mod}</h4>
+                <p className="text-xs text-indigo-200 mt-1">
+                  Clique para começar
+                </p>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>
