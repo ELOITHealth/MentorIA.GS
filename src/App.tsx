@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Module from "./pages/Module";
 import Feedback from "./pages/Feedback";
+import Onboarding from "./pages/Onboarding";
 
 function App() {
   return (

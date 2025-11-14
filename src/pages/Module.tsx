@@ -37,8 +37,8 @@ export default function Module() {
     setMessages([...newMessages, iaReply]);
     setInput("");
 
-    if (newMessages.length > 6) {
-      setTimeout(() => navigate("/feedback"), 1000);
+    if (newMessages.length > 8) {
+      setTimeout(() => navigate("/feedback"), 1200);
     }
   };
 
