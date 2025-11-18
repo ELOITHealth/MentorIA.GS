@@ -2,5 +2,6 @@ export interface Module {
   id: number;
   title: string;
   description: string;
-  completed: boolean;
+  imageUrl: string;
+  profession: string;
 }

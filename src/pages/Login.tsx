@@ -1,47 +1,62 @@
 import { useState } from "react";
+import { api } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [name, setName] = useState<string>("");
-  const [profession, setProfession] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-    localStorage.setItem("userName", name);
-    localStorage.setItem("profession", profession);
-    navigate("/dashboard");
-  };
+
+    try {
+      const res = await api.get("/usuarios");
+
+      const usuarios = res.data;
+
+      const usuarioEncontrado = usuarios.find((u: any) => 
+        u.email === email && u.senha === password
+      );
+
+      if (!usuarioEncontrado) {
+        alert("Email ou senha inválidos.");
+        return;
+      }
+
+      localStorage.setItem("userId", usuarioEncontrado.id);
+      localStorage.setItem("userName", usuarioEncontrado.nome);
+      localStorage.setItem("profession", usuarioEncontrado.profissao);
+
+      navigate("/dashboard");
+
+    } catch (err) {
+      console.error("Erro no login:", err);
+    }
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-indigo-900 text-white">
-      <h2 className="text-3xl font-semibold mb-6">Bem-vindo à MentorIA</h2>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col gap-4 bg-indigo-800 p-6 rounded-2xl shadow-md"
-      >
-        <input
-          type="text"
-          placeholder="Seu nome"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          className="px-4 py-2 rounded text-black"
+    <div className="min-h-screen bg-indigo-900 text-white flex justify-center items-center px-6">
+      <form onSubmit={handleLogin} className="bg-white/10 p-8 rounded-2xl shadow-lg w-full max-w-md">
+        
+        <h2 className="text-3xl font-bold mb-6 text-center">Entrar</h2>
+
+        <input 
+          className="p-3 rounded-lg bg-white/20 w-full mb-3"
+          placeholder="Seu email"
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
         />
-        <select
-          value={profession}
-          onChange={(e) => setProfession(e.target.value)}
-          required
-          className="px-4 py-2 rounded text-black"
-        >
-          <option value="">Selecione sua área</option>
-          <option value="Marketing">Marketing</option>
-          <option value="RH">Recursos Humanos</option>
-          <option value="TI">Tecnologia da Informação</option>
-          <option value="Educação">Educação</option>
-          <option value="Saúde">Saúde</option>
-        </select>
-        <button className="bg-white text-indigo-700 px-6 py-2 rounded font-semibold hover:scale-105 transition">
+
+        <input 
+          type="password"
+          className="p-3 rounded-lg bg-white/20 w-full mb-3"
+          placeholder="Sua senha"
+          value={password}
+          onChange={(e)=>setPassword(e.target.value)}
+        />
+
+        <button className="p-3 bg-indigo-600 rounded-lg w-full mt-2">
           Entrar
         </button>
       </form>
