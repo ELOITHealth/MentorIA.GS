@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import { motion } from "framer-motion";
 import ProgressBar from "../components/ProgressBar";
+import Navbar from "../components/Navbar";
 import { api } from "../services/api";
-import { Module } from "../types/Module";
+import type { Module } from "../types/Module";
+
+const normalize = (str = "") =>
+  String(str).trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
 export default function Dashboard() {
   const [profession, setProfession] = useState("");
@@ -19,121 +23,84 @@ export default function Dashboard() {
     setProgress(isNaN(savedProgress) ? 0 : savedProgress);
   }, []);
 
-  //  BUSCAR MÓDULOS DA API REAL
   useEffect(() => {
     async function loadModules() {
       try {
         const res = await api.get("/modulos");
-
-        // filtro por profissão (front-end)
-        const filtered = res.data.filter(
-          (m: Module) => m.profissao === profession
-        );
-
+        const profNorm = normalize(profession);
+        const filtered = res.data.filter((m: Module) => normalize(m.profissao) === profNorm);
         setModules(filtered);
       } catch (err) {
         console.error("Erro ao carregar módulos:", err);
       }
     }
-
     if (profession) loadModules();
   }, [profession]);
 
-  const COLORS = ["#4F46E5", "#6366F1"];
-
-  const data = [
-    { name: "Concluído", value: progress > 0 ? progress : 0.0001 },
-    { name: "Restante", value: 100 - progress },
-  ];
+  const COLORS = ["#3A86FF", "#5CE1E6"];
+  const data = [{ name: "Concluído", value: progress > 0 ? progress : 0.0001 }, { name: "Restante", value: 100 - progress }];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-indigo-700 text-white px-6 py-10">
+    <>
+      <Navbar />
+      <main className="min-h-[calc(100vh-64px)] bg-[#0A1A2F] text-[#E2E8F0] px-6 py-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mb-8">
+            <div>
+              <h2 className="text-3xl lg:text-4xl font-extrabold">Olá, {name} 👋</h2>
+              <p className="text-sm text-[#AFCBDA]">Profissão: {profession}</p>
+            </div>
 
-      {/* HEADER */}
-      <div className="max-w-5xl mx-auto flex justify-between items-center mb-12">
-        <div>
-          <h2 className="text-4xl font-bold">Olá, {name} 👋</h2>
-          <p className="text-indigo-200">Profissão: {profession}</p>
-        </div>
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex items-center gap-4">
+              <div className="w-14 h-14 bg-[#102A43] rounded-full flex items-center justify-center text-lg font-semibold text-[#E2E8F0] border border-white/6">
+                {name?.charAt(0) || "U"}
+              </div>
+            </motion.div>
+          </div>
 
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-2xl shadow-lg border border-white/10"
-        >
-          {name.charAt(0)}
-        </motion.div>
-      </div>
+          <section className="bg-[#102A43] p-6 rounded-2xl shadow-lg border border-white/6 mb-8">
+            <h3 className="text-xl font-semibold mb-3">Seu progresso total</h3>
+            <ProgressBar progress={progress} />
+            <div className="flex items-center justify-between mt-3">
+              <p className="text-sm text-[#AFCBDA]">{progress}% concluído</p>
+              <div className="w-28 h-28">
+                <PieChart width={112} height={112}>
+                  <Pie data={data} dataKey="value" cx="50%" cy="50%" innerRadius={36} outerRadius={50} paddingAngle={3}>
+                    {data.map((_, i) => <Cell key={i} fill={COLORS[i]} />)}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </div>
+            </div>
+          </section>
 
-      {/* PROGRESS BAR */}
-      <div className="max-w-4xl mx-auto mb-12">
-        <div className="bg-white/10 p-6 rounded-2xl shadow-lg border border-white/10">
-          <h3 className="text-xl font-semibold mb-4">Seu progresso total</h3>
+          <div className="flex justify-center mb-8">
+            <Link to="/chat" className="px-4 py-2 rounded-lg bg-[#3A86FF] text-[#0A1A2F] font-semibold hover:shadow-lg">Abrir MentorIA (Chat)</Link>
+          </div>
 
-          <ProgressBar progress={progress} />
-          <p className="mt-2 text-indigo-200">{progress}% concluído</p>
-
-          <div className="flex justify-center mt-6">
-            <PieChart width={200} height={200}>
-              <Pie
-                data={data}
-                dataKey="value"
-                cx="50%"
-                cy="50%"
-                innerRadius={50}
-                outerRadius={80}
-                paddingAngle={3}
-              >
-                {data.map((_, i) => (
-                  <Cell key={i} fill={COLORS[i]} />
+          <section>
+            <h3 className="text-2xl font-bold mb-5">Módulos recomendados</h3>
+            {modules.length === 0 ? (
+              <p className="text-[#AFCBDA]">Nenhum módulo encontrado para sua profissão…</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {modules.map((mod, i) => (
+                  <motion.div key={mod.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
+                    <Link to={`/module/${mod.id}`} className="block bg-[#0A1A2F]/40 hover:bg-[#0A1A2F]/30 transition p-5 rounded-xl border border-white/6 shadow">
+                      <h4 className="font-semibold text-lg">{mod.nome}</h4>
+                      <p className="text-sm text-[#AFCBDA] mt-2 line-clamp-3">{mod.descricao || mod.conteudo?.slice(0, 120)}</p>
+                      <div className="mt-4 flex items-center justify-between">
+                        <span className="text-xs text-[#AFCBDA]">Começar</span>
+                        <span className="text-xs text-[#AFCBDA]">➜</span>
+                      </div>
+                    </Link>
+                  </motion.div>
                 ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </div>
+              </div>
+            )}
+          </section>
         </div>
-      </div>
-
-      {/* Botão para o Chat */}
-      <div className="max-w-4xl mx-auto mb-12 flex justify-center">
-        <Link
-          to="/chat"
-          className="bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-xl shadow-lg text-white font-semibold transition"
-        >
-          Abrir MentorIA (Chat)
-        </Link>
-      </div>
-
-      {/* LISTA DE MÓDULOS */}
-      <div className="max-w-5xl mx-auto">
-        <h3 className="text-2xl font-bold mb-6">Módulos recomendados</h3>
-
-        {modules.length === 0 ? (
-          <p className="text-indigo-200">Nenhum módulo encontrado para sua profissão…</p>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {modules.map((mod, i) => (
-              <motion.div
-                key={mod.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <Link
-                  to={`/module/${mod.id}`}
-                  className="block bg-white/10 hover:bg-white/20 transition p-6 rounded-xl shadow-lg border border-white/10"
-                >
-                  <h4 className="font-semibold">{mod.nome}</h4>
-                  <p className="text-xs text-indigo-200 mt-1">
-                    Clique para começar
-                  </p>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        )}
-      </div>
-
-    </div>
+      </main>
+    </>
   );
 }

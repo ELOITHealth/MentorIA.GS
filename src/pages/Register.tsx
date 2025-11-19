@@ -18,17 +18,15 @@ export default function Register() {
         nome: name,
         email: email,
         senha: password,
-        profissao: profession
+        profissao: profession,
       });
 
-      // salva dados do usuário
       localStorage.setItem("userId", res.data.id);
       localStorage.setItem("userName", res.data.nome);
       localStorage.setItem("profession", res.data.profissao);
       localStorage.setItem("email", res.data.email);
 
       navigate("/dashboard");
-
     } catch (err) {
       console.error("Erro ao registrar:", err);
       alert("Erro ao criar usuário!");
@@ -36,47 +34,60 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-indigo-900 text-white flex justify-center items-center px-6">
-      <form onSubmit={handleRegister} className="bg-white/10 p-8 rounded-2xl shadow-lg w-full max-w-md">
-        
-        <h2 className="text-3xl font-bold mb-6 text-center">Criar Conta</h2>
+    <div className="min-h-screen bg-gradient-to-b from-[#0B102B] to-[#0A1A2F] text-white flex justify-center items-center px-6 py-12">
+      
+      <form
+        onSubmit={handleRegister}
+        className="w-full max-w-md bg-white/10 backdrop-blur-xl p-10 rounded-2xl border border-white/20 shadow-2xl"
+      >
+        <h2 className="text-3xl font-bold text-center mb-8 text-white">
+          Criar Conta
+        </h2>
 
-        <input 
-          className="p-3 rounded-lg bg-white/20 w-full mb-3"
+        {/* NOME */}
+        <input
+          className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition mb-4"
           placeholder="Seu nome"
           value={name}
-          onChange={(e)=>setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
         />
 
-        <select 
-          className="p-3 rounded-lg bg-white/20 w-full mb-3"
+        {/* PROFISSÃO */}
+        <select
+          className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition mb-4"
           value={profession}
-          onChange={(e)=>setProfession(e.target.value)}
+          onChange={(e) => setProfession(e.target.value)}
         >
-          <option value="">Selecione sua profissão</option>
-          <option value="TI">TI</option>
-          <option value="Marketing">Marketing</option>
-          <option value="RH">RH</option>
-          <option value="Educação">Educação</option>
-          <option value="Saúde">Saúde</option>
+          <option value="" className="text-black">
+            Selecione sua profissão
+          </option>
+          <option value="TI" className="text-black">TI</option>
+          <option value="Marketing" className="text-black">Marketing</option>
+          <option value="RH" className="text-black">RH</option>
+          <option value="Educação" className="text-black">Educação</option>
+          <option value="Saúde" className="text-black">Saúde</option>
         </select>
 
-        <input 
-          className="p-3 rounded-lg bg-white/20 w-full mb-3"
+        {/* EMAIL */}
+        <input
+          className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition mb-4"
           placeholder="Seu email"
           value={email}
-          onChange={(e)=>setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
-        <input 
+        {/* SENHA */}
+        <input
           type="password"
-          className="p-3 rounded-lg bg-white/20 w-full mb-3"
+          className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition mb-4"
           placeholder="Sua senha"
           value={password}
-          onChange={(e)=>setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="p-3 bg-indigo-600 rounded-lg w-full mt-2">
+        <button
+          className="w-full p-3 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-500 shadow-lg shadow-indigo-900/30 hover:scale-105 transition font-semibold mt-2"
+        >
           Criar conta
         </button>
       </form>

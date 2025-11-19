@@ -27,7 +27,7 @@ export default function Onboarding() {
   useEffect(() => {
     // se já viu o onboarding, redireciona
     const seen = localStorage.getItem("onboardingSeen");
-    if (seen === "true") navigate("/login");
+    if (seen === "true") navigate("/dashboard");
   }, [navigate]);
 
   const handleNext = () => {
@@ -35,13 +35,13 @@ export default function Onboarding() {
       setIndex((s) => s + 1);
     } else {
       localStorage.setItem("onboardingSeen", "true");
-      navigate("/login");
+      navigate("/dashboard");
     }
   };
 
   const handleSkip = () => {
     localStorage.setItem("onboardingSeen", "true");
-    navigate("/login");
+    navigate("/dashboard");
   };
 
   return (
