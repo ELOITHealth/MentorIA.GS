@@ -1,124 +1,78 @@
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { api } from "../services/api";
-import type { Module } from "../types/Module";
+import Navbar from "../components/Navbar";
 
 export default function ModulePage() {
-  const { id } = useParams();
+  const { state } = useLocation();
   const navigate = useNavigate();
 
-  const [moduleData, setModuleData] = useState<Module | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  // 🔥 Buscar módulo da API real (único ponto com API no projeto)
-  useEffect(() => {
-    async function loadModule() {
-      try {
-        const res = await api.get(`/modulos/${id}`);
-        setModuleData(res.data);
-      } catch (err) {
-        console.error("Erro ao carregar módulo:", err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadModule();
-  }, [id]);
-
-  function handleComplete() {
-    const progress = Number(localStorage.getItem("progress") || "0");
-    const newProgress = Math.min(progress + 20, 100);
-
-    localStorage.setItem("progress", String(newProgress));
-
-    alert("Módulo concluído! 🎉");
-    navigate("/dashboard");
-  }
-
-  // 🟦 Loading elegante
-  if (loading)
+  // caso alguém acesse /module/123 sem state
+  if (!state) {
     return (
-      <div className="min-h-screen bg-[#0A1A2F] flex items-center justify-center text-white text-xl">
-        Carregando módulo...
-      </div>
-    );
-
-  // 🔴 Caso o backend esteja fora do ar
-  if (error)
-    return (
-      <div className="min-h-screen bg-[#0A1A2F] flex flex-col items-center justify-center text-white p-6 text-center">
-        <h1 className="text-3xl font-bold mb-4">Erro ao carregar módulo 😥</h1>
-        <p className="text-[#AFCBDA] max-w-md">
-          Não foi possível carregar os dados do módulo no momento.  
-          Verifique sua API ou tente novamente mais tarde.
-        </p>
-
+      <div className="min-h-screen bg-[#0A1A2F] text-white flex flex-col items-center justify-center">
+        <p className="text-lg mb-4">Módulo não encontrado.</p>
         <button
           onClick={() => navigate("/dashboard")}
-          className="mt-6 px-6 py-3 rounded-lg bg-[#3A86FF] hover:bg-[#1E6BE6] text-white font-semibold"
+          className="px-5 py-2 bg-[#3A86FF] rounded-lg"
         >
           Voltar ao Dashboard
         </button>
       </div>
     );
+  }
 
-  if (!moduleData)
-    return (
-      <div className="min-h-screen bg-[#0A1A2F] flex items-center justify-center text-white text-xl">
-        Módulo não encontrado.
-      </div>
-    );
+  const { nome, descricao, conteudo } = state;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0B102B] to-[#0A1A2F] text-white p-6">
-      <div className="max-w-3xl mx-auto">
+    <>
+      <Navbar />
 
-        {/* Título */}
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-4xl font-extrabold mb-6"
-        >
-          {moduleData.nome}
-        </motion.h1>
+      <main className="min-h-screen bg-[#0A1A2F] text-white px-6 py-10">
+        <div className="max-w-4xl mx-auto">
 
-        {/* Imagem */}
-        {moduleData.imagem && (
-          <motion.img
-            src={moduleData.imagem}
-            alt="Imagem do módulo"
-            className="rounded-xl mb-6 shadow-lg border border-white/10"
+          {/* Título */}
+          <motion.h1
+            initial={{ opacity: 0, y: -15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl font-extrabold mb-4"
+          >
+            {nome}
+          </motion.h1>
+
+          {/* Descrição */}
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-          />
-        )}
+            transition={{ delay: 0.1 }}
+            className="text-[#AFCBDA] mb-6"
+          >
+            {descricao}
+          </motion.p>
 
-        {/* Descrição */}
-        <p className="text-[#AFCBDA] text-lg mb-4">
-          {moduleData.descricao}
-        </p>
+          {/* Conteúdo */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-[#102A43] border border-white/10 p-6 rounded-xl shadow-lg leading-relaxed"
+          >
+            <h2 className="text-xl font-semibold mb-3">Conteúdo do Módulo</h2>
+            <p className="text-[#E2E8F0] whitespace-pre-line">
+              {conteudo}
+            </p>
+          </motion.div>
 
-        {/* Conteúdo */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="bg-white/10 p-6 rounded-xl border border-white/10 leading-relaxed shadow-lg"
-        >
-          {moduleData.conteudo}
-        </motion.div>
-
-        {/* Botão de concluir */}
-        <motion.button
-          onClick={handleComplete}
-          whileTap={{ scale: 0.95 }}
-          className="mt-6 w-full bg-[#3A86FF] hover:bg-[#1E6BE6] transition py-3 rounded-xl font-semibold text-white shadow-xl"
-        >
-          ✔ Marcar como concluído
-        </motion.button>
-      </div>
-    </div>
+          {/* Voltar */}
+          <div className="mt-10 flex justify-center">
+            <button
+              onClick={() => navigate("/dashboard")}
+              className="px-5 py-3 bg-[#3A86FF] text-[#0A1A2F] rounded-xl font-semibold hover:bg-[#1E6BE6] transition"
+            >
+              Voltar ao Dashboard
+            </button>
+          </div>
+        </div>
+      </main>
+    </>
   );
 }

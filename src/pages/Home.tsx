@@ -29,14 +29,34 @@ export default function Home() {
             {/* BOTÕES */}
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
 
-              {/* BOTÃO PRINCIPAL — COMEÇAR */}
+              {/* BOTÃO PRINCIPAL — ESTILO B */}
               <Link
                 to="/onboarding"
                 className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold
-                text-white bg-gradient-to-r from-indigo-500 to-blue-500
-                shadow-lg shadow-indigo-900/40 hover:scale-105 transition-transform"
+                text-[#0A1A2F] bg-[#5CE1E6]
+                shadow-lg shadow-cyan-900/40 hover:bg-[#6ff3f7] hover:scale-105 transition-transform"
               >
                 Começar agora
+              </Link>
+
+              {/* BOTÃO DE LOGIN */}
+              <Link
+                to="/login"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold
+                bg-[#5CE1E6]/20 border border-[#5CE1E6] text-[#5CE1E6]
+                shadow hover:bg-[#5CE1E6]/30 hover:scale-105 transition"
+              >
+                Entrar
+              </Link>
+
+              {/* BOTÃO DE REGISTRAR */}
+              <Link
+                to="/register"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold
+                bg-[#5CE1E6] text-[#0A1A2F]
+                shadow-lg hover:bg-[#6ff3f7] hover:scale-105 transition"
+              >
+                Criar conta
               </Link>
 
             </div>
