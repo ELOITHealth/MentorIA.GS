@@ -10,8 +10,9 @@ export default function ModulePage() {
 
   const [moduleData, setModuleData] = useState<Module | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  // 🔥 Buscar módulo na API real
+  // 🔥 Buscar módulo da API real (único ponto com API no projeto)
   useEffect(() => {
     async function loadModule() {
       try {
@@ -19,38 +20,67 @@ export default function ModulePage() {
         setModuleData(res.data);
       } catch (err) {
         console.error("Erro ao carregar módulo:", err);
-        alert("Erro ao carregar módulo!");
+        setError(true);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
-
     loadModule();
   }, [id]);
 
   function handleComplete() {
-    let progress = Number(localStorage.getItem("progress") || "0");
-
-    // ✔ aumenta 20% a cada módulo finalizado
+    const progress = Number(localStorage.getItem("progress") || "0");
     const newProgress = Math.min(progress + 20, 100);
 
-    localStorage.setItem("progress", newProgress.toString());
+    localStorage.setItem("progress", String(newProgress));
 
     alert("Módulo concluído! 🎉");
     navigate("/dashboard");
   }
 
-  if (loading) return <p className="text-white p-10">Carregando...</p>;
-  if (!moduleData) return <p className="text-white p-10">Módulo não encontrado.</p>;
+  // 🟦 Loading elegante
+  if (loading)
+    return (
+      <div className="min-h-screen bg-[#0A1A2F] flex items-center justify-center text-white text-xl">
+        Carregando módulo...
+      </div>
+    );
+
+  // 🔴 Caso o backend esteja fora do ar
+  if (error)
+    return (
+      <div className="min-h-screen bg-[#0A1A2F] flex flex-col items-center justify-center text-white p-6 text-center">
+        <h1 className="text-3xl font-bold mb-4">Erro ao carregar módulo 😥</h1>
+        <p className="text-[#AFCBDA] max-w-md">
+          Não foi possível carregar os dados do módulo no momento.  
+          Verifique sua API ou tente novamente mais tarde.
+        </p>
+
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="mt-6 px-6 py-3 rounded-lg bg-[#3A86FF] hover:bg-[#1E6BE6] text-white font-semibold"
+        >
+          Voltar ao Dashboard
+        </button>
+      </div>
+    );
+
+  if (!moduleData)
+    return (
+      <div className="min-h-screen bg-[#0A1A2F] flex items-center justify-center text-white text-xl">
+        Módulo não encontrado.
+      </div>
+    );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-indigo-700 text-white p-6">
+    <div className="min-h-screen bg-gradient-to-br from-[#0B102B] to-[#0A1A2F] text-white p-6">
       <div className="max-w-3xl mx-auto">
 
         {/* Título */}
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl font-bold mb-6"
+          className="text-4xl font-extrabold mb-6"
         >
           {moduleData.nome}
         </motion.h1>
@@ -60,26 +90,22 @@ export default function ModulePage() {
           <motion.img
             src={moduleData.imagem}
             alt="Imagem do módulo"
+            className="rounded-xl mb-6 shadow-lg border border-white/10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="rounded-xl mb-6 shadow-lg border border-white/10"
           />
         )}
 
         {/* Descrição */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-indigo-200 text-lg mb-4"
-        >
+        <p className="text-[#AFCBDA] text-lg mb-4">
           {moduleData.descricao}
-        </motion.p>
+        </p>
 
         {/* Conteúdo */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="bg-white/10 p-6 rounded-xl border border-white/10 leading-relaxed"
+          className="bg-white/10 p-6 rounded-xl border border-white/10 leading-relaxed shadow-lg"
         >
           {moduleData.conteudo}
         </motion.div>
@@ -88,11 +114,10 @@ export default function ModulePage() {
         <motion.button
           onClick={handleComplete}
           whileTap={{ scale: 0.95 }}
-          className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 transition py-3 rounded-xl font-semibold text-white shadow-xl"
+          className="mt-6 w-full bg-[#3A86FF] hover:bg-[#1E6BE6] transition py-3 rounded-xl font-semibold text-white shadow-xl"
         >
-          Marcar como concluído ✔
+          ✔ Marcar como concluído
         </motion.button>
-
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Module from "./pages/Module";
 import Feedback from "./pages/Feedback";
@@ -13,7 +12,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/module/:id" element={<Module />} />
         <Route path="/feedback" element={<Feedback />} />

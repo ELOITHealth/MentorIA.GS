@@ -5,93 +5,106 @@ import { useNavigate } from "react-router-dom";
 const steps = [
   {
     title: "Aprenda a aplicar IA no trabalho",
-    text: "Módulos curtos e objetivos para aplicar IA em tarefas do dia a dia — e-mails, planilhas, atendimento e muito mais.",
+    text: "Módulos curtos e objetivos para aplicar IA imediatamente em tarefas do dia a dia.",
     icon: "🤖",
   },
   {
     title: "Feedback prático e personalizado",
-    text: "Nossa mentora IA analisa suas respostas e dá dicas práticas para melhorar rapidamente.",
+    text: "Nossa mentora IA analisa suas respostas e te dá dicas para evoluir rapidamente.",
     icon: "📈",
   },
   {
-    title: "Rápido, acessível e escalável",
-    text: "Trilhas para equipes e profissionais com relatórios que provam o impacto em produtividade.",
+    title: "Rápido, escalável e intuitivo",
+    text: "Trilhas criadas para turbinar sua produtividade com clareza e foco.",
     icon: "🚀",
   },
 ];
 
 export default function Onboarding() {
-  const [index, setIndex] = useState<number>(0);
   const navigate = useNavigate();
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    // se já viu o onboarding, redireciona
     const seen = localStorage.getItem("onboardingSeen");
     if (seen === "true") navigate("/dashboard");
   }, [navigate]);
 
-  const handleNext = () => {
+  function handleNext() {
     if (index < steps.length - 1) {
-      setIndex((s) => s + 1);
+      setIndex((prev) => prev + 1);
     } else {
       localStorage.setItem("onboardingSeen", "true");
       navigate("/dashboard");
     }
-  };
+  }
 
-  const handleSkip = () => {
+  function handleSkip() {
     localStorage.setItem("onboardingSeen", "true");
     navigate("/dashboard");
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-900 to-indigo-700 text-white flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#0B102B] to-[#0A1A2F] text-white flex items-center justify-center px-6 py-10">
       <motion.div
-        initial={{ scale: 0.98, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
+        initial={{ opacity: 0, scale: 0.97 }}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-3xl bg-white/5 border border-white/10 rounded-2xl p-8 shadow-lg"
+        className="w-full max-w-3xl bg-white/10 backdrop-blur-xl p-10 rounded-3xl border border-white/10 shadow-2xl"
       >
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h2 className="text-lg font-bold">Bem-vindo à MentorIA</h2>
-            <p className="text-sm text-indigo-200">Um passo rápido para começar a aprender com IA</p>
-          </div>
-          <button onClick={handleSkip} className="text-sm text-indigo-200 hover:underline">
+        {/* HEADER */}
+        <div className="flex justify-between items-center mb-10">
+          <h2 className="text-xl font-bold">Bem-vindo à MentorIA 🚀</h2>
+          <button onClick={handleSkip} className="text-[#5CE1E6] hover:underline">
             Pular
           </button>
         </div>
 
+        {/* SLIDE */}
         <motion.div
           key={index}
           initial={{ x: 40, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -40, opacity: 0 }}
-          transition={{ duration: 0.35 }}
-          className="flex flex-col md:flex-row gap-6 items-center"
+          transition={{ duration: 0.4 }}
+          className="flex flex-col md:flex-row gap-8 items-center"
         >
-          <div className="flex-none bg-indigo-800/30 rounded-xl p-6 text-center w-full md:w-1/3">
-            <div className="text-6xl mb-2">{steps[index].icon}</div>
+          {/* CARD LATERAL */}
+          <div className="w-full md:w-1/3 bg-white/10 p-8 rounded-2xl shadow-md border border-white/10 text-center">
+            <div className="text-6xl mb-3">{steps[index].icon}</div>
             <h3 className="text-xl font-semibold">{steps[index].title}</h3>
           </div>
 
+          {/* TEXTO PRINCIPAL */}
           <div className="flex-1">
-            <p className="text-indigo-200 mb-6">{steps[index].text}</p>
+            <p className="text-[#B7C9E6] mb-8 leading-relaxed">{steps[index].text}</p>
 
-            <div className="flex items-center gap-3">
+            {/* INDICADORES */}
+            <div className="flex items-center gap-3 mb-6">
               {steps.map((_, i) => (
                 <div
                   key={i}
-                  className={`h-2 rounded-full ${i === index ? "w-10 bg-indigo-400" : "w-4 bg-white/20"}`}
+                  className={`h-2 rounded-full transition-all ${
+                    i === index ? "w-10 bg-[#5CE1E6]" : "w-4 bg-white/20"
+                  }`}
                 />
               ))}
             </div>
 
-            <div className="mt-6 flex gap-3">
-              <button onClick={handleNext} className="bg-indigo-500 px-5 py-2 rounded-lg font-semibold hover:scale-105 transition">
+            {/* BOTÕES */}
+            <div className="flex gap-4">
+              <button
+                onClick={handleNext}
+                className="px-6 py-3 rounded-xl font-semibold text-white
+                bg-gradient-to-r from-[#3A86FF] to-[#5CE1E6]
+                shadow-lg shadow-blue-900/30 hover:scale-105 transition"
+              >
                 {index < steps.length - 1 ? "Próximo" : "Começar"}
               </button>
-              <button onClick={handleSkip} className="px-4 py-2 border border-white/10 rounded-lg text-sm hover:bg-white/5">
+
+              <button
+                onClick={handleSkip}
+                className="px-6 py-3 rounded-xl border border-white/20 text-white hover:bg-white/10 transition"
+              >
                 Pular
               </button>
             </div>

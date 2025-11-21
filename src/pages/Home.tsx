@@ -28,22 +28,17 @@ export default function Home() {
 
             {/* BOTÕES */}
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
+
+              {/* BOTÃO PRINCIPAL — COMEÇAR */}
               <Link
-                to="/register"
+                to="/onboarding"
                 className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold
                 text-white bg-gradient-to-r from-indigo-500 to-blue-500
-                shadow-lg shadow-indigo-900/30 hover:scale-105 transition-transform"
+                shadow-lg shadow-indigo-900/40 hover:scale-105 transition-transform"
               >
-                Criar Conta
+                Começar agora
               </Link>
 
-              <Link
-                to="/dashboard"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-xl
-                border border-white/20 text-[#E2E8F0] hover:bg-white/10 transition"
-              >
-                Ver Demo (Dashboard)
-              </Link>
             </div>
 
             {/* FEATURE CARDS */}
@@ -52,10 +47,12 @@ export default function Home() {
                 <div className="font-semibold text-white">Trilhas práticas</div>
                 <div className="mt-1 text-xs">Módulos diretos ao ponto</div>
               </div>
+
               <div className="p-5 bg-white/10 rounded-xl border border-white/10 backdrop-blur-sm shadow-md">
                 <div className="font-semibold text-white">Mentoria IA</div>
                 <div className="mt-1 text-xs">Chat orientado por IA</div>
               </div>
+
               <div className="p-5 bg-white/10 rounded-xl border border-white/10 backdrop-blur-sm shadow-md">
                 <div className="font-semibold text-white">Resultados reais</div>
                 <div className="mt-1 text-xs">Métricas de progresso</div>
