@@ -1,16 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
+  darkMode: 'class', // enable class-based dark mode
   theme: {
     extend: {},
   },
-  plugins: [],
-}
-module.exports = {
-  content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
-  theme: { extend: {} },
   plugins: [require('@tailwindcss/line-clamp')],
-}
+};

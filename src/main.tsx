@@ -3,6 +3,16 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 
+// Apply saved theme (dark/light) before React mounts to avoid flash
+try {
+  const saved = localStorage.getItem('theme')
+  if (saved === 'dark') document.documentElement.classList.add('dark')
+  else if (saved === 'light') document.documentElement.classList.remove('dark')
+  else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.classList.add('dark')
+  }
+} catch {}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />

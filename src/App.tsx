@@ -9,6 +9,9 @@ import Chat from "./pages/Chat";
 import Onboarding from "./pages/Onboarding";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Integrantes from "./pages/Integrantes";
+import About from "./pages/About";
+import FAQ from "./pages/FAQ";
 
 function App() {
   return (
@@ -18,6 +21,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/integrantes" element={<Integrantes />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/faq" element={<FAQ />} />
 
         {/* fluxo do app */}
         <Route path="/onboarding" element={<Onboarding />} />
