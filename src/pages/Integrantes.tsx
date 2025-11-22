@@ -23,9 +23,9 @@ const members = [
     nome: "Matheus Moratti",
     rm: "562480",
     turma: "1TDSPK",
-    foto: "",
-    github: "",
-    linkedin: "",
+    foto: "/images/matheus.jpg",
+    github: "https://github.com/Matheus-hub-prog",
+    linkedin: "www.linkedin.com/in/matheus-silva-moratti",
   },
 ];
 
