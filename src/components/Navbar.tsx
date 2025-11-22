@@ -19,8 +19,10 @@ export default function Navbar() {
       const root = document.documentElement;
       if (theme === 'dark') {
         root.classList.add('dark');
+        root.classList.remove('light');
       } else {
         root.classList.remove('dark');
+        root.classList.add('light');
       }
       localStorage.setItem('theme', theme);
     } catch {}
@@ -34,7 +36,7 @@ export default function Navbar() {
     <nav className="w-full border-b border-white/6 bg-[#0A1A2F]/80 backdrop-blur-sm">
       <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-[#3A86FF] to-[#5CE1E6] text-black font-bold">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center logo-gradient text-black font-bold">
             MI
           </div>
           <div>

@@ -29,9 +29,7 @@ export default function Home() {
             <div className="mt-10 flex flex-col sm:flex-row gap-4">
               <Link
                 to="/register"
-                className="px-6 py-3 rounded-xl font-semibold text-white 
-                bg-gradient-to-r from-[#3A86FF] to-[#5CE1E6]
-                shadow-lg hover:scale-105 transition-transform"
+                className="px-6 py-3 rounded-xl font-semibold text-white shadow-lg hover:scale-105 transition-transform cta-gradient"
               >
                 Criar conta gratuita
               </Link>
@@ -53,9 +51,9 @@ export default function Home() {
             className="hidden lg:block"
           >
             <img
-              src="https://cdni.iconscout.com/illustration/premium/thumb/ai-brain-9235697-7549693.png"
-              alt="IA Illustration"
-              className="w-full drop-shadow-2xl"
+              src="/images/hero-ai.svg"
+              alt="Ilustração MentorIA - IA no trabalho"
+              className="w-full drop-shadow-2xl rounded-xl"
             />
           </motion.div>
         </section>
@@ -104,9 +102,7 @@ export default function Home() {
 
           <Link
             to="/register"
-            className="px-8 py-4 text-lg rounded-xl font-semibold text-white 
-            bg-gradient-to-r from-[#3A86FF] to-[#5CE1E6] 
-            shadow-lg hover:scale-105 transition-transform inline-block"
+            className="px-8 py-4 text-lg rounded-xl font-semibold text-white shadow-lg hover:scale-105 transition-transform inline-block cta-gradient"
           >
             Criar conta gratuita agora
           </Link>

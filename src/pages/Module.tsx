@@ -81,7 +81,7 @@ export default function ModulePage() {
         <p className="text-lg mb-4">Módulo não encontrado.</p>
         <button
           onClick={() => navigate("/dashboard")}
-          className="px-5 py-2 bg-[#3A86FF] rounded-lg"
+          className="px-5 py-2 primary-bg rounded-lg"
         >
           Voltar ao Dashboard
         </button>
@@ -139,7 +139,7 @@ export default function ModulePage() {
 
             <div className="mt-6 flex justify-end gap-3">
               <button onClick={() => navigate("/dashboard")} className="px-4 py-2 rounded-lg bg-white/5">Voltar</button>
-              <button onClick={markModuleComplete} className="px-4 py-2 rounded-lg bg-[#3A86FF] text-[#0A1A2F] font-semibold">Marcar módulo como concluído</button>
+              <button onClick={markModuleComplete} className="px-4 py-2 rounded-lg primary-bg text-[#0A1A2F] font-semibold">Marcar módulo como concluído</button>
             </div>
           </motion.div>
         </div>

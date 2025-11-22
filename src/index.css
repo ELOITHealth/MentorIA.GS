@@ -68,3 +68,112 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Dark theme overrides when `.dark` class is present on <html> (documentElement) */
+.dark body {
+  background-color: #071428;
+  color: rgba(255, 255, 255, 0.92);
+}
+.dark a {
+  color: #7dd3fc;
+}
+.dark a:hover {
+  color: #4fd1c5;
+}
+.dark button {
+  background-color: #0A1A2F;
+  color: rgba(255,255,255,0.95);
+  border-color: transparent;
+}
+
+/* ensure focus styles are visible in dark */
+.dark button:focus,
+.dark button:focus-visible {
+  outline-color: rgba(125, 211, 252, 0.25);
+}
+
+/* color variables for primary palette and UI tokens */
+:root {
+  --primary-1: #3A86FF; /* dark blue */
+  --primary-2: #5CE1E6; /* aqua */
+  /* light theme primary should remain vivid for contrast */
+  --primary-1-light: #2563EB; /* blue-600 - good contrast on light bg */
+  --primary-2-light: #06B6D4; /* cyan-500 */
+  --bg-color: #071428; /* main background (dark) */
+  --bg-color-light: #F1F5F9; /* softer light background */
+  --text-color: rgba(255,255,255,0.92);
+  --text-color-light: #0f1724;
+  --card-bg-dark: rgba(255,255,255,0.04);
+  --card-bg-light: rgba(2,6,23,0.03);
+  --button-text-dark: #0A1A2F;
+  --button-text-light: #ffffff;
+  --button-text: var(--button-text-dark);
+}
+
+/* light theme overrides when .light class applied to root */
+.light {
+  --primary-1: var(--primary-1-light);
+  --primary-2: var(--primary-2-light);
+  --bg-color: var(--bg-color-light);
+  --text-color: var(--text-color-light);
+  --card-bg: var(--card-bg-light);
+  --button-text: var(--button-text-light);
+}
+
+/* ensure dark explicitly maps to dark tokens */
+.dark {
+  --primary-1: #3A86FF;
+  --primary-2: #5CE1E6;
+  --bg-color: #071428;
+  --text-color: rgba(255,255,255,0.92);
+  --card-bg: var(--card-bg-dark);
+  --button-text: var(--button-text-dark);
+}
+
+/* Utility: CTA gradient using the CSS variables */
+.cta-gradient {
+  background-image: linear-gradient(90deg, var(--primary-1), var(--primary-2)) !important;
+}
+
+/* Utility: primary solid background (used for buttons and badges) */
+.primary-bg {
+  background-color: var(--primary-1) !important;
+  color: var(--button-text) !important;
+}
+
+/* Utility: logo gradient */
+.logo-gradient {
+  background-image: linear-gradient(135deg, var(--primary-1), var(--primary-2)) !important;
+}
+
+/* Override subtle cards for light theme when Tailwind uses bg-white/10 */
+.light .bg-white\/10 {
+  /* subtle light card background (not pure white) */
+  background-color: rgba(15,23,36,0.03) !important;
+}
+
+/* Override border white/10 in light theme to a soft-gray */
+.light .border-white\/10 {
+  border-color: rgba(15,23,36,0.06) !important;
+}
+
+/* Override main background (used on home) to respect theme tokens */
+.dark main {
+  background-image: linear-gradient(var(--bg-color), rgba(10,26,47,0.9)) !important;
+}
+.light main {
+  /* light theme: use a subtle light background and ensure dark text */
+  background-image: none !important;
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+}
+
+/* set body background/text for both themes explicitly */
+.dark body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+.light body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}

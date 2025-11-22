@@ -138,7 +138,7 @@ export default function Chat() {
                   <div className="self-start bg-[#0A1A2F] p-3 rounded-lg w-fit max-w-[85%]">{m.pergunta}</div>
 
                   <div className="text-xs text-[#AFCBDA] font-semibold mt-1">MentorIA</div>
-                  <div className="self-end bg-[#3A86FF] p-3 rounded-lg w-fit text-[#0A1A2F] max-w-[85%]">{m.resposta}</div>
+                  <div className="self-end primary-bg p-3 rounded-lg w-fit text-[#0A1A2F] max-w-[85%]">{m.resposta}</div>
                 </div>
               ))}
             </div>
@@ -146,7 +146,7 @@ export default function Chat() {
 
           <div className="flex gap-3">
             <input value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => e.key === "Enter" && sendMessage()} className="flex-1 p-3 rounded-lg text-black" placeholder="Digite sua pergunta..." />
-            <button onClick={sendMessage} className="px-5 py-2 rounded-lg bg-[#3A86FF] text-[#0A1A2F] font-semibold">Enviar</button>
+            <button onClick={sendMessage} className="px-5 py-2 rounded-lg primary-bg text-[#0A1A2F] font-semibold">Enviar</button>
           </div>
         </div>
       </div>

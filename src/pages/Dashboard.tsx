@@ -147,7 +147,7 @@ export default function Dashboard() {
           <div className="flex justify-center mb-12">
             <Link
               to="/chat"
-              className="px-5 py-3 rounded-xl bg-[#3A86FF] text-[#0A1A2F] font-semibold hover:shadow-lg transition"
+              className="px-5 py-3 rounded-xl primary-bg text-[#0A1A2F] font-semibold hover:shadow-lg transition"
             >
               Abrir MentorIA (Chat)
             </Link>
