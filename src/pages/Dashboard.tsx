@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import ProgressBar from "../components/ProgressBar";
 import Navbar from "../components/Navbar";
 import { mockModules } from "../data/mockModules";
+import Skeleton from "../components/Skeleton";
 
 // mapa para converter ID → nome da profissão
 const professionMap: Record<number, string> = {
@@ -75,6 +76,14 @@ export default function Dashboard() {
     { name: "Concluído", value: progress > 0 ? progress : 0.0001 },
     { name: "Restante", value: 100 - progress },
   ];
+
+  if (!name || !profissaoId) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0A1A2F] p-10 text-white">
+        <Skeleton />
+      </div>
+    );
+  }
 
   return (
     <>
