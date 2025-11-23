@@ -13,6 +13,7 @@ import Integrantes from "./pages/Integrantes";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
 import Footer from "./components/Footer";
+import BackToTop from "./components/BackToTop";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />
       </Routes>
       <Footer/>
+      <BackToTop/>
     </BrowserRouter>
   );
 }
