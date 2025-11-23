@@ -1,73 +1,155 @@
-# React + TypeScript + Vite
+# MentorIA — Aprenda Inteligência Artificial Aplicada ao Trabalho
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma interativa desenvolvida para ensinar profissionais de diversas áreas a utilizar IA no dia a dia por meio de trilhas personalizadas, módulos práticos e um chatbot inteligente orientado por IA.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# 2. Status do Projeto
 
-## React Compiler
+✔ Finalizado — Versão 1.0  
+✔ Deploy funcional no Vercel  
+✔ Backend hospedado na Render  
+✔ Vídeos do Pitch e Heurísticas disponíveis  
+✔ Documentação completa
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+# 3. Sumário
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Título e Descrição  
+2. Status do Projeto  
+3. Sumário  
+4. Sobre o Projeto  
+5. Tecnologias Utilizadas  
+6. Instalação  
+7. Como Usar  
+8. Estrutura de Pastas  
+9. Endpoints / Rotas  
+10. Autores e Créditos  
+11. Screenshots / Demonstração  
+12. Contato  
+13. Links Importantes  
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+# 4. Sobre o Projeto
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+O **MentorIA** é um sistema educacional focado em preparar profissionais para aplicar Inteligência Artificial no trabalho real.  
+Ele oferece:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Registro e login funcional via API (Render)
+- Dashboard personalizado por profissão
+- Trilhas de aprendizado (módulos)
+- Chatbot inteligente orientado por IA
+- Progresso salvo por usuário
+- UX baseada nas heurísticas de Nielsen
+- UX Writing com linguagem clara, humana e objetiva
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+O objetivo é transformar profissionais comuns em **usuários estratégicos de IA**, aumentando produtividade e reduzindo esforço operacional.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+# 5. Tecnologias Utilizadas
+
+### **Frontend**
+- React.js + Vite
+- TypeScript
+- TailwindCSS
+- Framer Motion
+- Axios
+- Recharts
+
+### **Backend**
+- Java + Spring Boot (API hospedada na Render)
+
+### **Infra**
+- Vercel (Deploy Frontend)
+- Render (API Backend)
+- GitHub (versionamento)
+
+---
+
+# 6. Instalação
+
+###  **Requisitos**
+- Node.js 18+
+- npm ou yarn
+
+###  **Instalar dependências**
+```bash
+npm install
+
+#7. Como usar 
+Acesse o site
+ 
+
+Fluxo
+1.Criar conta escolhendo sua profissão
+2.Fazer login
+3.Acessar o Dashboard
+4.Explorar módulos
+5.Conversar com o MentorIA
+6.Concluir módulos para aumentar o progresso
+
+8. Estrutura de Pastas
+src/
+ ├── components/
+ │    ├── Navbar.tsx
+ │    ├── ProgressBar.tsx
+ │    ├── ModalWelcome.tsx
+ │
+ ├── pages/
+ │    ├── Home.tsx
+ │    ├── Dashboard.tsx
+ │    ├── Login.tsx
+ │    ├── Register.tsx
+ │    ├── Chat.tsx
+ │    ├── Module.tsx
+ │
+ ├── data/
+ │    ├── mockModules.ts
+ │
+ ├── services/
+ │    ├── api.ts
+ │
+ ├── types/
+ │    ├── Module.ts
+
+9. Endpoints ou Rotas Principais
+Backend (Render)
+Base URL da API:
+https://java-global-solution-zo8v.onrender.com
+
+Endpoints usados:
+| Método | Rota             | Descrição                 |
+| ------ | ---------------- | ------------------------- |
+| GET    | `/usuarios`      | Lista usuários            |
+| POST   | `/usuarios`      | Cria usuário              |
+| GET    | `/usuarios/{id}` | Busca usuário             |
+| GET    | `/modulos/{id}`  | Retorna módulo específico |
+
+10. Autores e Créditos
+Equipe EloitHealth -1TDSPK
+
+Nome                RM            GitHub                              Linkedin
+Vitor Augusto     564227    https://github.com/Vitor-Augusto-olv    www.linkedin.com/in/vitor-augusto-91234a353
+                                                                
+André Bellandi    564662                                        
+                                                                
+Matheus Silva     562480    https://github.com/Matheus-hub-prog     www.linkedin.com/in/matheus-silva-moratti
+
+11. Contato
+Para dúvidas, sugestões ou melhorias:
+Email: vitorbr02@icloud.com
+Fiap - 1TDSPK
+Linkedin/ GitHub na tabela acima
+
+13. Links Importantes
+Video Pitch(5 minutos)
+https://youtu.be/0hfLCVX8014
+
+Video Explicativo(Heurísticas + UX writing)
+https://youtu.be/uiZ12iIUkiE
+
+Deploy no Vercel
+https://mentoriags.vercel.app/
