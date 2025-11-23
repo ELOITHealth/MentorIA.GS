@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import "./navHover.css"
 
 export default function Navbar() {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
