@@ -15,9 +15,9 @@ const members = [
     nome: "Andre Bellandi",
     rm: "564662",
     turma: "1TDSPK",
-    foto: "",
-    github: "",
-    linkedin: "",
+    foto: "/images/andre.jpg",
+    github: "https://github.com/AndreBellandi",
+    linkedin: "www.linkedin.com/in/andré-rodrigues02",
   },
   {
     nome: "Matheus Moratti",

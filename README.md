@@ -134,7 +134,7 @@ Equipe EloitHealth -1TDSPK
 Nome                RM            GitHub                              Linkedin
 Vitor Augusto     564227    https://github.com/Vitor-Augusto-olv    www.linkedin.com/in/vitor-augusto-91234a353
                                                                 
-André Bellandi    564662                                        
+André Bellandi    564662    https://github.com/AndreBellandi        www.linkedin.com/in/andré-rodrigues02                     
                                                                 
 Matheus Silva     562480    https://github.com/Matheus-hub-prog     www.linkedin.com/in/matheus-silva-moratti
 
