@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
   const [senha, setSenha] = useState("");
   const navigate = useNavigate();
 
@@ -32,13 +33,19 @@ export default function Login() {
       navigate("/dashboard");
 
     } catch (err) {
+      setError("Email ou senha incorretos. Tente novamente.");
       console.error("Erro ao fazer login:", err);
       alert("Erro ao acessar o sistema!");
     }
   }
 
   return (
-    <div className="min-h-screen bg-[#0A1A2F] text-white flex justify-center items-center px-6">
+      <div className="min-h-screen bg-[#0A1A2F] text-white flex justify-center items-center px-6">
+            {error && (
+          <div className="mb-4 p-3 bg-red-500/20 text-red-300 rounded-lg border border-red-500/30">
+            {error}
+          </div>
+        )}
       <form
         onSubmit={handleLogin}
         className="bg-white/10 p-8 rounded-2xl shadow-xl border border-white/10 backdrop-blur-xl w-full max-w-md"
