@@ -90,6 +90,11 @@ export default function Dashboard() {
       <Navbar />
 
       <main className="min-h-[calc(100vh-64px)] bg-[#0A1A2F] text-[#E2E8F0] px-6 py-10">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
+        >    
         <div className="max-w-6xl mx-auto">
 
           {/* HEADER */}
@@ -196,6 +201,7 @@ export default function Dashboard() {
             )}
           </section>
         </div>
+        </motion.div>    
       </main>
     </>
   );
