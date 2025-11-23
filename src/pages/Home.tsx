@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import Navbar from "../components/Navbar";
+import useScrollReveal from "../hooks/useScrollReveal";
 
 export default function Home() {
+  useScrollReveal();
   return (
     <>
       <Navbar />
