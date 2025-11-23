@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Integrantes from "./pages/Integrantes";
 import About from "./pages/About";
 import FAQ from "./pages/FAQ";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/chat" element={<Chat />} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }
